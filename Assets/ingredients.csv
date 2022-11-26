@@ -1,0 +1,38 @@
+cheese,Sliced Cheese,Salty;Unhealthy,Topping
+lettuce,Lettuce,Healthy,Topping;Bun
+bun,Bun,Chewy,Bun
+pickle,Sliced Pickles,Sour;Healthy,Topping
+meat,Meat,Salty;Unhealthy;Expensive,Meat
+onion,Onion,Spicy;Healthy,Topping
+onion_ring,Onion Ring,Salty;Unhealthy;Expensive,Topping;Garnish
+fries,Haystack Fries,Salty;Unhealthy;Cheap,Topping
+waffle,Belgian Waffle,Sweet;Unhealthy;Expensive,Topping;Bun
+sesame,Sesame Seeds,Crunchy;Expensive,Garnish
+toothpick,Toothpick,Crunchy;Spicy,Garnish
+fish,Fish,Salty;Expensive,Meat
+cheese_cube,Cheese Cube,Salty;Unhealthy;Chewy,Garnish
+cheese_wedge,Cheese Wedge,Salty;Unhealthy;Chewy;Expensive,Topping
+pasta,Pasta,Salty;Unhealthy;Soggy,Topping;Bun
+tomato,Tomato,Sweet;Salty;Healthy,Topping
+paper,Sheet of Paper,Crunchy;Cheap,Topping;Bun
+cardboard,Warped Cardboard,Chewy;Cheap,Topping;Bun
+rock,Rock,Crunchy,Bun
+pet_rock,Pet Rock,Crunchy,Bun
+coin,Wheat Penny,Crunchy;Expensive;Sour,Topping
+donut,Jelly Donut,Soggy;Sweet,Bun;Garnish
+coaster,Coaster,Chewy,Topping
+bracelet,Mom's Bracelet,Crunchy;Expensive,Topping;Garnish
+shoelace,Old Shoelaces,Chewy;Cheap,Topping
+waffle_fries,Waffle Fries,Chewy;Salty;Unhealthy,Topping
+bug,Lice,Soggy;Sour,Garnish
+nail,Nails,Crunchy;Spicy;Sour,Garnish
+fish_plastic,Plastic Fish,Chewy,Meat
+ice_cube,Ice Cube,Crunchy;Sour,Garnish
+door_stopper,Door Stopper,Chewy;Sour,Topping
+worms,Worms,Soggy;Salty;Cheap,Topping
+rag,Old Rag,Soggy;Cheap,Topping;Bun
+hemisphere,Half a Globe,Chewy;Expensive,Bun
+puck,Hockey Puck,Crunchy;Spicy,Topping;Bun
+screw,Screws,Crunchy;Spicy;Sour,Garnish
+jesus_sticker,Jesus Bumper Sticker,Chewy;Spicy,Meat
+mop,Mop,Soggy;Chewy;Sour,Topping;Bun
