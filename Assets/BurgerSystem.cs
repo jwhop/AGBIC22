@@ -9,6 +9,7 @@ using Random = System.Random;
 
 public enum Tag
 {
+    None,
     Unhealthy,
     Healthy,
     Expensive,
@@ -31,6 +32,14 @@ public enum Category
     Garnish
 }
 
+public enum Size
+{
+    Small,
+    Medium,
+    Large,
+    Huge
+}
+
 public class Ingredient
 {
     public string Id { get; set; } = "";
@@ -43,14 +52,26 @@ public class Customer
 {
     public string Id { get; set; } = "";
     public string Name { get; set; } = "";
+    public string Description { get; set; } = "";
+    public Size Size { get; set; } = Size.Small;
+    
     // TODO JSR/HE : Add image resource path as field
     public HashSet<Tag> Likes { get; set; } = new HashSet<Tag>();
     public HashSet<Tag> Dislikes { get; set; } = new HashSet<Tag>();
+    
     // 0 = snack
     // 1 = meal
     // 2 = famished
     // 3 = whole hog
     public int Hungriness { get; set; } = 1;
+    public override string ToString()
+    {
+        return $"{Name}[{Id}] - {Description}\n" +
+               $"Size: {Size}\n" +
+               $"Likes: {Likes.Aggregate("", (s, tag) => s + $"{tag}, ")}\n" +
+               $"Dislikes: {Dislikes.Aggregate("", (s, tag) => s + $"{tag}, ")}\n" +
+               $"Hungriness: {Hungriness}\n";
+    }
 }
 
 public class Burger
@@ -79,6 +100,7 @@ public class BurgerSystem : MonoBehaviour
 
     private static Dictionary<string, Ingredient> _ingredients = new Dictionary<string, Ingredient>();
     private static Dictionary<Category, HashSet<Ingredient>> _categoryList = new Dictionary<Category, HashSet<Ingredient>>();
+    private static HashSet<Customer> _customers = new HashSet<Customer>();
     
     private static Random rng = new Random();
 
@@ -189,7 +211,7 @@ public class BurgerSystem : MonoBehaviour
             // Ok guess they don't really like any of our garnishes, so they won't request it
             if (garnish != null)
             {
-                burger.Ingredients.Add(garnish);
+                burger.Ingredients.Insert(0, garnish);
             }
         }
         
@@ -199,21 +221,16 @@ public class BurgerSystem : MonoBehaviour
     // TODO JSR : Move this somewhere
     private void TestBurger()
     {
-        Customer bill = new Customer
+        // Print all customers
+        foreach (var customer in _customers)
         {
-            Id = "bill",
-            Name = "Bill",
-            Likes = new HashSet<Tag>() { Tag.Cheap, Tag.Sour, Tag.Healthy },
-            Dislikes = new HashSet<Tag>() { Tag.Unhealthy, Tag.Expensive },
-            Hungriness = 3
-        };
-
-        Burger burger = BurgerSystem.Instance.GenerateBurgerForCustomer(bill);
-
-        if (burger != null)
-        {
-            Console.WriteLine(burger);
+            Debug.Log(customer);
             
+            Burger burger = BurgerSystem.Instance.GenerateBurgerForCustomer(customer);
+            if (burger != null)
+            {
+                Debug.Log(burger);
+            }
         }
     }
 
@@ -232,6 +249,7 @@ public class BurgerSystem : MonoBehaviour
     private void Start()
     {
         LoadIngredientsFromCSV();
+        LoadCustomersFromCSV();
         TestBurger();
     }
 
@@ -268,6 +286,43 @@ public class BurgerSystem : MonoBehaviour
 
                     _categoryList[category].Add(ingredient);
                 }
+            }
+        }
+    }
+
+    private void LoadCustomersFromCSV()
+    {
+        string path = Path.Combine(Application.dataPath,"characters.csv");
+        using (var reader = new StreamReader(path))
+        {
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                var values = line.Split(',');
+                if (values.Length != 6)
+                    continue;
+
+                var id = values[0];
+                var name = values[1];
+                var description = values[2];
+                var size = (Size) Enum.Parse(typeof(Size), values[3]);
+                var likes = values[4];
+                var dislikes = values[5];
+                
+                // Generate hungriness based on size
+                var sizeNum = (int)size + 1;
+                var hungriness = rng.Next(sizeNum / 2, sizeNum);
+                var customer = new Customer
+                {
+                    Id = id,
+                    Name = name,
+                    Description = description,
+                    Size = size,
+                    Likes = new HashSet<Tag>(likes.Split(';').Select(tagString => (Tag) Enum.Parse(typeof(Tag), tagString)).ToList()),
+                    Dislikes = new HashSet<Tag>(dislikes.Split(';').Select(tagString => (Tag) Enum.Parse(typeof(Tag), tagString)).ToList()),
+                    Hungriness = hungriness
+                };
+                _customers.Add(customer);
             }
         }
     }
